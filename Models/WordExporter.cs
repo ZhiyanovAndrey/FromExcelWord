@@ -1,8 +1,5 @@
-﻿using Aspose.Cells;
-using Microsoft.Office.Interop.Word;
-using Microsoft.VisualBasic;
+﻿using Microsoft.Office.Interop.Word;
 using System;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -18,15 +15,15 @@ namespace FromExcelWord.Models
                 MessageBox.Show("Данные для экспорта не обнаружены.");
                 return;
             }
-            var wordApp = new Microsoft.Office.Interop.Word.Application();
-            wordApp.Visible = true;
-            var wordDoc = wordApp.Documents.Add();
+            var app = new Microsoft.Office.Interop.Word.Application();
+            app.Visible = true;
+            var doc = app.Documents.Add();
 
 
 
             try
             {
-                InsertDataWord(wordDoc, myGrid);
+                InsertDataWord(doc, myGrid);
             }
             catch (Exception ex)
             {
@@ -34,35 +31,68 @@ namespace FromExcelWord.Models
             }
             finally
             {
-                Marshal.ReleaseComObject(wordDoc);
-                Marshal.ReleaseComObject(wordApp);
+                //Marshal.ReleaseComObject(wordDoc);
+                //Marshal.ReleaseComObject(wordApp);
+
+                // Сохраняем документ Word и закрываем приложение
+                doc.Save();
+                doc.Close();
+                app.Quit();
             }
         }
 
         private static void InsertDataWord(Document doc, DataGrid myGrid)
         {
-            //var table = doc.Tables.Add(doc.Range(), myGrid.Items.Count + 1, myGrid.Columns.Count);
+            // создаем таблицу
+            var table = doc.Tables.Add(doc.Range(), myGrid.Items.Count + 1, myGrid.Columns.Count);
+            //Формат таблицы
 
-            //for (int j = 0; j < myGrid.Columns.Count; j++)
-            //{
-            //    table.Rows[1].Cells[j + 1].Range.Text = myGrid.Columns[j].HeaderText;
-            //}
+            //table.Application.Selection.Tables[1].Rows[1].Select();
+            //table.Application.Selection.Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter;
+            table.Tables[1].Borders.Enable = 1;
 
-            //for (int i = 0; i < myGrid.Items.Count; i++)
-            //{
-            //    for (int j = 0; j < myGrid.Columns.Count; j++)
-            //    {
-            //        if (myGrid[j, i].Value != null)
-            //        {
-            //            table.Rows[i + 2].Cells[j + 1].Range.Text = myGrid[j, i].Value.ToString();
-            //        }
-            //    }
-            //}
+            //table.Application.Selection.Tables[1].Select();
+            //table.Application.Selection.Tables[1].Rows.AllowBreakAcrossPages = 0;
+            //table.Application.Selection.Tables[1].Rows.Alignment = WdRowAlignment.wdAlignRowCenter;
+            //table.Application.Selection.Tables[1].Rows[1].Select();
+            //table.Application.Selection.InsertRowsAbove(1);
+            //table.Application.Selection.Tables[1].Rows[1].Select();
 
-            //table.Rows[1].Range.Font.Bold = 1;
-            //table.Rows[1].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-            //table.Range.ParagraphFormat.SpaceAfter = 6;
-            ////    table.Borders.Enable = 1;
+            //Стиль заголовка таблицы
+            table.Application.Selection.Tables[1].Rows[1].Range.Bold = 1;
+            table.Application.Selection.Tables[1].Rows[1].Range.Font.Name = "Calibri";
+            table.Application.Selection.Tables[1].Rows[1].Range.Font.Size = 11;
+            //table.Application.Selection.Tables[1].Rows[1].Alignment= WdRowAlignment.wdAlignRowCenter;
+
+            // заголовки
+            for (int j = 0; j < myGrid.Columns.Count; j++)
+            {
+
+                table.Cell(1, 1).Range.Text = "Отдел";
+                table.Cell(1, 2).Range.Text = "Количество задач";
+            }
+
+
+
+            for (int i = 0; i < myGrid.Items.Count; i++)
+            {
+                for (int j = 0; j < myGrid.Columns.Count; j++)
+                {
+                    if (myGrid[j, i].Value != null)
+                    {
+                        table.Rows[i + 2].Cells[j + 1].Range.Text = myGrid[j, i].Value.ToString();
+                    }
+                }
+
+                TextBlock cellContent = ZakazDataGrid.Columns[j].GetCellContent(row) as TextBlock;
+                string cellValue = cellContent == null ? "" : cellContent.Text;
+                table.Cell(i + 2, j + 1).Range.Text = cellValue;
+            }
+
+            table.Rows[1].Range.Font.Bold = 1;
+            table.Rows[1].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+            table.Range.ParagraphFormat.SpaceAfter = 6;
+            table.Borders.Enable = 1;
         }
 
 
@@ -74,6 +104,6 @@ namespace FromExcelWord.Models
         //    }
 
 
-}
+    }
 }
 
