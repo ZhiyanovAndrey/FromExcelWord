@@ -6,7 +6,18 @@
         xmlns:local="clr-namespace:FromExcelWord"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <StackPanel>
+        <Menu Background="gray">
+            <MenuItem Header="Открыть"/>
+
+        </Menu>
+        <Label Content="Введите ссылку на файл Excel"/>
+        <TextBox x:Name="textbox" Background="Yellow"/>
+        <!--<Button Content="Количество персонала в отделе" Background="Gray" Click="Button_Click"/>
+        <Button Content="Количество задач у сотрудника" Background="Gray" Click="Button_Click_1"/>
+        <Button Content="Количество задач по отделам" Background="Gray" Click="Button_Click_2"/>
+        <Button Content="Количество задач у сотрудников по отделам" Background="Gray" Click="Button_Click_3"/>-->
+        <Button Content="Отчет в Word" Background="Gray" Click="Button_Click_4"/>
+        <DataGrid x:Name="datagrid1" Height="702"/>
+    </StackPanel>
 </Window>

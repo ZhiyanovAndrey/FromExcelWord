@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Word = Microsoft.Office.Interop.Word;
 
 namespace FromExcelWord
 {
@@ -23,6 +24,17 @@ namespace FromExcelWord
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            Word.Application app = new Word.Application();
+            var doc = app.Documents.Add(Visible: true);
+
+            doc.Save();
+            doc.Close();
+            app.Quit();
+
         }
     }
 }
