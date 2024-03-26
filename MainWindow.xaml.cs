@@ -13,7 +13,7 @@ namespace FromExcelWord
     {
         //private string filename = string.Empty;
         private readonly string _path = @"C:\Data.xlsb";
-        private readonly string _wordTemplate = @"C:\Template.doc";
+        private readonly string _wordTemplate = @"C:\Template.docx";
 
         private WordExporter _wordExporter;
 
@@ -133,42 +133,37 @@ namespace FromExcelWord
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            //dynamic excel = Activator.CreateInstance(Type.GetTypeFromProgID("Excel.Application", true));
-            //WordExporter.WordExport(datagrid1);
+
+            WordExporter.WordExport(datagrid1);
 
 
 
 
-            try
-            {
-                Word.Application app = new Word.Application();
-                var doc = app.Documents.Add(Visible:true);
+            //try
+            //{
+            //    Word.Application app = new Word.Application();
+            //    //var document = app.Documents.Add(Visible:true);
 
-                doc.Save();
-                doc.Close();
-                app.Quit();
+            //    var document = app.Documents.Open(_wordTemplate);
+            //    document.Activate();
+            //    Word.Table table = document.Tables[1]; // таблица загруженная из документа
 
-                
+            //    table.Cell(1, 1).Range.Text = _wordTemplate;
 
+            //    document.Save();
+            //    document.Close();
+            //    app.Quit();
 
-                //var wordApp = new Word.Application();
-                //wordApp.Visible = false;
-                //var document = wordApp.Documents.Open(_wordTemplate);
-                //document.Activate();
-                //Word.Table table = document.Tables[1]; // таблица загруженная из документа
+            //}
+            //catch (Exception ex)
+            //{
 
-                //table.Cell(1, 1).Range.Text = _wordTemplate;
+            //    MessageBox.Show(ex.Message);
+            //}
+            //finally
+            //{
 
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-               
-            }
+            //}
 
 
 
