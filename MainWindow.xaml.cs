@@ -1,4 +1,6 @@
 ﻿using FromExcelWord.Models;
+//using Microsoft.Office.Interop.Word;
+using Microsoft.Win32;
 using System;
 using System.Linq;
 using System.Windows;
@@ -11,16 +13,15 @@ namespace FromExcelWord
     /// </summary>
     public partial class MainWindow : Window
     {
-        //private string filename = string.Empty;
-        private readonly string _path = @"C:\Data.xlsb";
-        private readonly string _wordTemplate = @"C:\Template.docx";
+      
+        private string _path = string.Empty;
 
         private WordExporter _wordExporter;
 
 
         public MainWindow()
         {
-            _wordExporter= new WordExporter();
+            _wordExporter = new WordExporter();
             InitializeComponent();
         }
 
@@ -124,7 +125,7 @@ namespace FromExcelWord
                             };
 
                 // количество задач у сотрудников
-                datagrid2.ItemsSource = query.GroupBy(p => p.Name).Select(g => new { Name = g.Key, Count = g.Count() }).OrderByDescending(d=>d.Count);
+                datagrid2.ItemsSource = query.GroupBy(p => p.Name).Select(g => new { Name = g.Key, Count = g.Count() }).OrderByDescending(d => d.Count);
 
             }
             catch (Exception ex)
@@ -173,6 +174,33 @@ namespace FromExcelWord
 
 
 
+
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog()
+                {
+                    CheckFileExists = false,
+                    CheckPathExists = true,
+                    Multiselect = false,
+                    Title = "Выберите файл"
+                };
+
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    _path = openFileDialog.FileName;
+
+                };
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
 
         }
     }

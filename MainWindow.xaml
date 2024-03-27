@@ -8,7 +8,7 @@
         Title="MainWindow" Height="750" Width="450">
     <StackPanel>
         <Menu Background="gray">
-            <MenuItem Header="Открыть"/>
+            <MenuItem Header="Открыть" Click="MenuItem_Click"/>
 
         </Menu>
         <Label Content="Введите ссылку на файл Excel"/>
