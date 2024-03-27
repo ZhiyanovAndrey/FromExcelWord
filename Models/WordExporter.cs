@@ -24,6 +24,11 @@ namespace FromExcelWord.Models
             try
             {
                 InsertDataWord(doc, grd1, grd2);
+
+                // Сохраняем документ Word и закрываем приложение
+                doc.Save();
+                doc.Close();
+                app.Quit();
             }
             catch (Exception ex)
             {
@@ -32,10 +37,7 @@ namespace FromExcelWord.Models
             finally
             {
 
-                // Сохраняем документ Word и закрываем приложение
-                doc.Save();
-                doc.Close();
-                app.Quit();
+
             }
         }
 
@@ -55,6 +57,8 @@ namespace FromExcelWord.Models
             table.Application.Selection.Tables[1].Borders.Enable = 1; // включаем все границы
             //Стиль заголовка таблицы
             table.Application.Selection.Tables[1].Rows[1].Range.Bold = 1;
+            table.Application.Selection.Tables[1].Rows[1].Shading.BackgroundPatternColor= WdColor.wdColorGray375;
+            table.Application.Selection.Tables[1].Rows[1].Range.Font.Color=WdColor.wdColorWhite;
             table.Application.Selection.Tables[1].Rows[1].Range.Font.Name = "Calibri";
             table.Application.Selection.Tables[1].Rows[1].Range.Font.Size = 11;
             table.Rows[1].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
@@ -102,12 +106,21 @@ namespace FromExcelWord.Models
 
            
 
-            for (int j = 0; j <= grd1.Columns.Count; j++)
+            for (int j = 0; j <= grd1.Items.Count; j++)
             {
-                table.Application.Selection.Tables[1].Rows[j].Cells[2].Range.Bold = 1;
+                table.Application.Selection.Tables[1].Rows[j+1].Cells[2]
+                    .Range.ParagraphFormat.Alignment= WdParagraphAlignment.wdAlignParagraphCenter;
+                table.Application.Selection.Tables[1].Rows[j+1].Range.Bold = 1;
+                table.Application.Selection.Tables[1].Rows[1].Shading.BackgroundPatternColor = WdColor.wdColorGray35;
+
             }
 
-
+            for (int j = grd1.Items.Count; j <= grd2.Items.Count+grd1.Items.Count; j++)
+            {
+                table.Application.Selection.Tables[1].Rows[j+1].Cells[2]
+                    .Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+              
+            }
 
 
             //table.Application.Selection.Tables[1].Rows[2].Cells[2].Range.Bold = 1; // ячейка 4 жирным
