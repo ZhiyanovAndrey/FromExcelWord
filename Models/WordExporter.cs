@@ -19,6 +19,11 @@ namespace FromExcelWord.Models
             app.Visible = true;
             var doc = app.Documents.Add();
 
+            //Add Section
+            
+           var paragraph = doc.Paragraphs[1].Range.Text = "Отчет по загрузке";
+                  
+
 
 
             try
@@ -106,12 +111,12 @@ namespace FromExcelWord.Models
 
            
 
-            for (int j = 0; j <= grd1.Items.Count; j++)
+            for (int j = 1; j < grd1.Items.Count+1; j++)
             {
                 table.Application.Selection.Tables[1].Rows[j+1].Cells[2]
                     .Range.ParagraphFormat.Alignment= WdParagraphAlignment.wdAlignParagraphCenter;
                 table.Application.Selection.Tables[1].Rows[j+1].Range.Bold = 1;
-                table.Application.Selection.Tables[1].Rows[j+1].Shading.BackgroundPatternColor = WdColor.wdColorGray35;
+                table.Application.Selection.Tables[1].Rows[j+1].Shading.BackgroundPatternColor = WdColor.wdColorGray10;
 
             }
 
