@@ -156,7 +156,7 @@ namespace FromExcelWord
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
 
-            _wordExporter.WordExport(datagrid1);
+            _wordExporter.WordExport(datagrid1, datagrid2);
 
 
 

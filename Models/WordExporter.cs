@@ -8,9 +8,9 @@ namespace FromExcelWord.Models
     public class WordExporter
     {
 
-        public void WordExport(DataGrid myGrid)
+        public void WordExport(DataGrid grd1, DataGrid grd2)
         {
-            if (myGrid == null || myGrid.Items.Count <= 0)
+            if (grd1 == null || grd1.Items.Count <= 0)
             {
                 MessageBox.Show("Данные для экспорта не обнаружены.");
                 return;
@@ -23,7 +23,7 @@ namespace FromExcelWord.Models
 
             try
             {
-                InsertDataWord(doc, myGrid);
+                InsertDataWord(doc, grd1, grd2);
             }
             catch (Exception ex)
             {
@@ -41,10 +41,10 @@ namespace FromExcelWord.Models
             }
         }
 
-        private void InsertDataWord(Document doc, DataGrid myGrid)
+        private void InsertDataWord(Document doc, DataGrid grd1, DataGrid grd2)
         {
             // создаем таблицу
-            var table = doc.Tables.Add(doc.Range(), myGrid.Items.Count + 1, myGrid.Columns.Count);
+            var table = doc.Tables.Add(doc.Range(), grd1.Items.Count + grd2.Items.Count + 1, grd1.Columns.Count);
             //Формат таблицы
 
             //table.Application.Selection.Tables[1].Rows[1].Select();
@@ -59,8 +59,8 @@ namespace FromExcelWord.Models
 
 
 
-            // заголовки
-            for (int j = 0; j < myGrid.Columns.Count; j++)
+            // таблица с количеством задач по отделам
+            for (int j = 0; j < grd1.Columns.Count; j++)
             {
 
                 table.Cell(1, 1).Range.Text = "Отдел";
@@ -69,15 +69,35 @@ namespace FromExcelWord.Models
 
 
 
-            for (int i = 0; i < myGrid.Items.Count; i++)
+            for (int i = 0; i < grd1.Items.Count; i++)
             {
-                DataGridRow row = (DataGridRow)myGrid.ItemContainerGenerator.ContainerFromIndex(i);
-                for (int j = 0; j < myGrid.Columns.Count; j++)
+                DataGridRow row = (DataGridRow)grd1.ItemContainerGenerator.ContainerFromIndex(i);
+                for (int j = 0; j < grd1.Columns.Count; j++)
                 {
-                    if (myGrid.Columns[j] != null)
+                    if (grd1.Columns[j] != null)
                     {
 
-                        TextBlock cellContent = myGrid.Columns[j].GetCellContent(row) as TextBlock;
+                        TextBlock cellContent = grd1.Columns[j].GetCellContent(row) as TextBlock;
+                        string cellValue = cellContent == null ? "" : cellContent.Text;
+                        table.Cell(i + 2, j + 1).Range.Text = cellValue;
+                    }
+
+                }
+
+            }
+
+            // таблица с количеством задач у сотрудников
+
+
+            for (int i = 0; i < grd1.Items.Count; i++)
+            {
+                DataGridRow row = (DataGridRow)grd1.ItemContainerGenerator.ContainerFromIndex(i);
+                for (int j = 0; j < grd1.Columns.Count; j++)
+                {
+                    if (grd1.Columns[j] != null)
+                    {
+
+                        TextBlock cellContent = grd1.Columns[j].GetCellContent(row) as TextBlock;
                         string cellValue = cellContent == null ? "" : cellContent.Text;
                         table.Cell(i + 2, j + 1).Range.Text = cellValue;
                     }
