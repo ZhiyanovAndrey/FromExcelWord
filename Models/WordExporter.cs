@@ -89,12 +89,12 @@ namespace FromExcelWord.Models
             // таблица с количеством задач у сотрудников
 
 
-            for (int i = 0; i < grd1.Items.Count; i++)
+            for (int i = grd1.Items.Count; i < grd2.Items.Count+grd1.Items.Count; i++)
             {
-                DataGridRow row = (DataGridRow)grd1.ItemContainerGenerator.ContainerFromIndex(i);
-                for (int j = 0; j < grd1.Columns.Count; j++)
+                DataGridRow row = (DataGridRow)grd2.ItemContainerGenerator.ContainerFromIndex(i);
+                for (int j = 0; j < grd2.Columns.Count; j++)
                 {
-                    if (grd1.Columns[j] != null)
+                    if (grd2.Columns[j] != null)
                     {
 
                         TextBlock cellContent = grd1.Columns[j].GetCellContent(row) as TextBlock;

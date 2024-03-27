@@ -116,7 +116,7 @@ namespace FromExcelWord
 
                 // количество задач у сотрудников по отделам
                 var query1 = query.GroupBy(q => new { q.Отдел, q.ФИО }).Select(g => new { g.Key.Отдел, g.Key.ФИО, Count = g.Count() });
-                var query2 = query1.GroupBy(q => new { q.Отдел }).Select(g => new { g.Key.Отдел, Count = g.Sum(x => x.Count) });
+                var query2 = query1.GroupBy(q => new { q.Отдел }).Select(g => new { g.Key.Отдел, Count = g.Sum(x => x.Count) }).OrderByDescending(d => d.Count);
 
                 datagrid1.ItemsSource = query2;
 
@@ -141,7 +141,7 @@ namespace FromExcelWord
                             };
 
                 // количество задач у сотрудников
-                datagrid2.ItemsSource = query.GroupBy(p => p.Name).Select(g => new { Name = g.Key, Count = g.Count() });
+                datagrid2.ItemsSource = query.GroupBy(p => p.Name).Select(g => new { Name = g.Key, Count = g.Count() }).OrderByDescending(d=>d.Count);
 
             }
             catch (Exception ex)
