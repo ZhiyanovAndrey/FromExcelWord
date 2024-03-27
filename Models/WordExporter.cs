@@ -43,18 +43,6 @@ namespace FromExcelWord.Models
         {
             // создаем таблицу
             var table = doc.Tables.Add(doc.Range(), grd1.Items.Count + grd2.Items.Count + 1, grd1.Columns.Count);
-            //Формат таблицы
-
-            //table.Application.Selection.Tables[1].Rows[1].Select();
-            //table.Application.Selection.Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter;
-
-            //table.Application.Selection.Tables[1].Select();
-            //table.Application.Selection.Tables[1].Rows.AllowBreakAcrossPages = 0;
-            //table.Application.Selection.Tables[1].Rows.Alignment = WdRowAlignment.wdAlignRowCenter;
-            //table.Application.Selection.Tables[1].Rows[1].Select();
-            //table.Application.Selection.InsertRowsAbove(1);
-            //table.Application.Selection.Tables[1].Rows[1].Select();
-
 
 
             // таблица с количеством задач по отделам
@@ -114,9 +102,9 @@ namespace FromExcelWord.Models
 
            
 
-            for (int j = 0; j < grd1.Columns.Count; j++)
+            for (int j = 0; j <= grd1.Columns.Count; j++)
             {
-                table.Application.Selection.Tables[1].Rows[j+1].Cells[2].Range.Bold = 1;
+                table.Application.Selection.Tables[1].Rows[j].Cells[2].Range.Bold = 1;
             }
 
 
@@ -133,24 +121,8 @@ namespace FromExcelWord.Models
             table.Application.Selection.Tables[1].Rows[1].Range.Font.Name = "Calibri";
             table.Application.Selection.Tables[1].Rows[1].Range.Font.Size = 11;
             table.Rows[1].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-            //table.Range.ParagraphFormat.SpaceAfter = 6; // отступ
 
-            //table.Application.Selection.Tables[1].Rows[1].Alignment= WdRowAlignment.wdAlignRowCenter;
-
-            //table.Rows[1].Range.Font.Bold = 1;
-            //table.Rows[1].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-            //table.Borders.Enable = 1;
         }
-
-
-        //Workbook wb = new Workbook(path);
-
-        //    foreach (Worksheet worksheet in wb.Worksheets)
-        //    {
-        //        MessageBox.Show(worksheet.Name);
-        //    }
-
-
     }
 }
 

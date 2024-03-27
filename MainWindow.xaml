@@ -5,20 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FromExcelWord"
         mc:Ignorable="d"
-        Title="MainWindow" Height="750" Width="450">
+        Title="MainWindow" Height="500" Width="450">
     <StackPanel>
         <Menu Background="gray">
             <MenuItem Header="Открыть" Click="MenuItem_Click"/>
 
         </Menu>
-        <Label Content="Введите ссылку на файл Excel"/>
-        <TextBox x:Name="textbox" Background="Yellow"/>
-        <Button Content="Количество персонала в отделе" Background="Gray" Click="Button_Click"/>
-        <Button Content="Количество задач у сотрудника" Background="Gray" Click="Button_Click_1"/>
-        <Button Content="Количество задач по отделам" Background="Gray" Click="Button_Click_2"/>
-        <Button Content="Количество задач у сотрудников по отделам" Background="Gray" Click="Button_Click_3"/>
-        <Button Content="Отчет в Word" Background="Gray" Click="Button_Click_4"/>
-        <DataGrid x:Name="datagrid1" Height="275" Width="Auto"/>
-        <DataGrid x:Name="datagrid2" Height="275" Width="Auto"/>
+       
+        <Button Content="Количество задач у сотрудников по отделам" Background="Green" BorderBrush="Black" Click="Button_Click_3"/>
+        <Button Content="Отчет в Word" Background="Green" BorderBrush="Black" Click="Button_Click_4"/>
+        <DataGrid x:Name="datagrid1" Height="200" Width="Auto"/>
+        <DataGrid x:Name="datagrid2" Height="200" Width="Auto"/>
     </StackPanel>
 </Window>
