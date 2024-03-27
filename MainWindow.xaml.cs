@@ -127,6 +127,28 @@ namespace FromExcelWord
 
                 MessageBox.Show(ex.Message);
             }
+
+
+
+            try
+            {
+                var query = from p in OpenExcelFile.GetPerson(_path)
+                            join t in OpenExcelFile.GetTask(_path) on p.PersonNumber equals t.PersonNumber
+                            select new
+                            {
+                                Name = $"{p.SurName.Trim()} {p.FirstName.Trim().First()} {p.MiddleName.FirstOrDefault()}.",
+                                TaskName = t.TaskId
+                            };
+
+                // количество задач у сотрудников
+                datagrid2.ItemsSource = query.GroupBy(p => p.Name).Select(g => new { Name = g.Key, Count = g.Count() });
+
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
         }
 
 
