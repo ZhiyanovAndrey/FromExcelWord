@@ -111,7 +111,7 @@ namespace FromExcelWord.Models
                 table.Application.Selection.Tables[1].Rows[j+1].Cells[2]
                     .Range.ParagraphFormat.Alignment= WdParagraphAlignment.wdAlignParagraphCenter;
                 table.Application.Selection.Tables[1].Rows[j+1].Range.Bold = 1;
-                table.Application.Selection.Tables[1].Rows[1].Shading.BackgroundPatternColor = WdColor.wdColorGray35;
+                table.Application.Selection.Tables[1].Rows[j+1].Shading.BackgroundPatternColor = WdColor.wdColorGray35;
 
             }
 
