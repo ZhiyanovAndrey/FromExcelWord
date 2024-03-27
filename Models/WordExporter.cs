@@ -8,7 +8,7 @@ namespace FromExcelWord.Models
     public class WordExporter
     {
 
-        public static void WordExport(DataGrid myGrid)
+        public void WordExport(DataGrid myGrid)
         {
             if (myGrid == null || myGrid.Items.Count <= 0)
             {
@@ -41,7 +41,7 @@ namespace FromExcelWord.Models
             }
         }
 
-        private static void InsertDataWord(Document doc, DataGrid myGrid)
+        private void InsertDataWord(Document doc, DataGrid myGrid)
         {
             // создаем таблицу
             var table = doc.Tables.Add(doc.Range(), myGrid.Items.Count + 1, myGrid.Columns.Count);
@@ -49,7 +49,6 @@ namespace FromExcelWord.Models
 
             //table.Application.Selection.Tables[1].Rows[1].Select();
             //table.Application.Selection.Cells.VerticalAlignment = WdCellVerticalAlignment.wdCellAlignVerticalCenter;
-            table.Tables[1].Borders.Enable = 1;
 
             //table.Application.Selection.Tables[1].Select();
             //table.Application.Selection.Tables[1].Rows.AllowBreakAcrossPages = 0;
@@ -58,11 +57,7 @@ namespace FromExcelWord.Models
             //table.Application.Selection.InsertRowsAbove(1);
             //table.Application.Selection.Tables[1].Rows[1].Select();
 
-            //Стиль заголовка таблицы
-            table.Application.Selection.Tables[1].Rows[1].Range.Bold = 1;
-            table.Application.Selection.Tables[1].Rows[1].Range.Font.Name = "Calibri";
-            table.Application.Selection.Tables[1].Rows[1].Range.Font.Size = 11;
-            //table.Application.Selection.Tables[1].Rows[1].Alignment= WdRowAlignment.wdAlignRowCenter;
+
 
             // заголовки
             for (int j = 0; j < myGrid.Columns.Count; j++)
@@ -78,21 +73,30 @@ namespace FromExcelWord.Models
             {
                 for (int j = 0; j < myGrid.Columns.Count; j++)
                 {
-                    if (myGrid[j, i].Value != null)
+                    if (myGrid.Columns[j] != null)
                     {
-                        table.Rows[i + 2].Cells[j + 1].Range.Text = myGrid[j, i].Value.ToString();
+                        table.Rows[i + 2].Cells[j + 1].Range.Text = myGrid.Items[i].ToString();
                     }
                 }
 
-                TextBlock cellContent = ZakazDataGrid.Columns[j].GetCellContent(row) as TextBlock;
-                string cellValue = cellContent == null ? "" : cellContent.Text;
-                table.Cell(i + 2, j + 1).Range.Text = cellValue;
+                //TextBlock cellContent = ZakazDataGrid.Columns[j].GetCellContent(row) as TextBlock;
+                //string cellValue = cellContent == null ? "" : cellContent.Text;
+                //table.Cell(i + 2, j + 1).Range.Text = cellValue;
             }
 
-            table.Rows[1].Range.Font.Bold = 1;
+            table.Application.Selection.Tables[1].Borders.Enable = 1; // включаем все границы
+            //Стиль заголовка таблицы
+            table.Application.Selection.Tables[1].Rows[1].Range.Bold = 1;
+            table.Application.Selection.Tables[1].Rows[1].Range.Font.Name = "Calibri";
+            table.Application.Selection.Tables[1].Rows[1].Range.Font.Size = 11;
             table.Rows[1].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-            table.Range.ParagraphFormat.SpaceAfter = 6;
-            table.Borders.Enable = 1;
+            table.Range.ParagraphFormat.SpaceAfter = 6; // отступ
+
+            //table.Application.Selection.Tables[1].Rows[1].Alignment= WdRowAlignment.wdAlignRowCenter;
+
+            //table.Rows[1].Range.Font.Bold = 1;
+            //table.Rows[1].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+            //table.Borders.Enable = 1;
         }
 
 

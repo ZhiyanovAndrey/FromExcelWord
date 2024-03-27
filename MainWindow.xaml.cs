@@ -20,6 +20,7 @@ namespace FromExcelWord
 
         public MainWindow()
         {
+            _wordExporter= new WordExporter();
             InitializeComponent();
         }
 
@@ -72,8 +73,7 @@ namespace FromExcelWord
                             join t in OpenExcelFile.GetTask(_path) on p.PersonNumber equals t.PersonNumber
                             select new
                             {
-                                Name = $"{p.SurName.Trim()} {p.FirstName.Trim().First()}" +
-                            $". {p.MiddleName.FirstOrDefault()}.",
+                                Name = $"{p.SurName.Trim()} {p.FirstName.Trim().First()} {p.MiddleName.FirstOrDefault()}.",
                                 TaskName = t.TaskId
                             };
 
@@ -134,7 +134,7 @@ namespace FromExcelWord
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
 
-            WordExporter.WordExport(datagrid1);
+            _wordExporter.WordExport(datagrid1);
 
 
 
