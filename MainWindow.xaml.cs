@@ -24,23 +24,6 @@ namespace FromExcelWord
             InitializeComponent();
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            //try
-            //{
-            //    OpenFileDialog ofd = new OpenFileDialog
-            //    {
-            //        Filter = "";
-            //    };  
-
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    MessageBox.Show(ex.Message);
-            //}
-        }
-
 
 
         private void Button_Click(object sender, RoutedEventArgs e)

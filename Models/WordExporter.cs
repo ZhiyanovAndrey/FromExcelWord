@@ -31,8 +31,6 @@ namespace FromExcelWord.Models
             }
             finally
             {
-                //Marshal.ReleaseComObject(wordDoc);
-                //Marshal.ReleaseComObject(wordApp);
 
                 // Сохраняем документ Word и закрываем приложение
                 doc.Save();
@@ -66,12 +64,18 @@ namespace FromExcelWord.Models
                 table.Cell(1, 1).Range.Text = "Отдел";
                 table.Cell(1, 2).Range.Text = "Количество задач";
             }
-
+            table.Application.Selection.Tables[1].Borders.Enable = 1; // включаем все границы
+            //Стиль заголовка таблицы
+            table.Application.Selection.Tables[1].Rows[1].Range.Bold = 1;
+            table.Application.Selection.Tables[1].Rows[1].Range.Font.Name = "Calibri";
+            table.Application.Selection.Tables[1].Rows[1].Range.Font.Size = 11;
+            table.Rows[1].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
 
 
             for (int i = 0; i < grd1.Items.Count; i++)
             {
                 DataGridRow row = (DataGridRow)grd1.ItemContainerGenerator.ContainerFromIndex(i);
+
                 for (int j = 0; j < grd1.Columns.Count; j++)
                 {
                     if (grd1.Columns[j] != null)
@@ -80,6 +84,8 @@ namespace FromExcelWord.Models
                         TextBlock cellContent = grd1.Columns[j].GetCellContent(row) as TextBlock;
                         string cellValue = cellContent == null ? "" : cellContent.Text;
                         table.Cell(i + 2, j + 1).Range.Text = cellValue;
+
+
                     }
 
                 }
@@ -89,7 +95,7 @@ namespace FromExcelWord.Models
             // таблица с количеством задач у сотрудников
 
 
-            for (int i = grd1.Items.Count; i < grd2.Items.Count+grd1.Items.Count; i++)
+            for (int i = 0; i < grd2.Items.Count; i++)
             {
                 DataGridRow row = (DataGridRow)grd2.ItemContainerGenerator.ContainerFromIndex(i);
                 for (int j = 0; j < grd2.Columns.Count; j++)
@@ -99,14 +105,29 @@ namespace FromExcelWord.Models
 
                         TextBlock cellContent = grd1.Columns[j].GetCellContent(row) as TextBlock;
                         string cellValue = cellContent == null ? "" : cellContent.Text;
-                        table.Cell(i + 2, j + 1).Range.Text = cellValue;
+                        table.Cell(i + 2 + grd1.Items.Count, j + 1).Range.Text = cellValue;
                     }
 
                 }
 
             }
 
+           
+
+            for (int j = 0; j < grd1.Columns.Count; j++)
+            {
+                table.Application.Selection.Tables[1].Rows[j+1].Cells[2].Range.Bold = 1;
+            }
+
+
+
+
+            //table.Application.Selection.Tables[1].Rows[2].Cells[2].Range.Bold = 1; // ячейка 4 жирным
+
+
+            table.Rows[1].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
             table.Application.Selection.Tables[1].Borders.Enable = 1; // включаем все границы
+
             //Стиль заголовка таблицы
             table.Application.Selection.Tables[1].Rows[1].Range.Bold = 1;
             table.Application.Selection.Tables[1].Rows[1].Range.Font.Name = "Calibri";
