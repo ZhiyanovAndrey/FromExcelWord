@@ -71,17 +71,19 @@ namespace FromExcelWord.Models
 
             for (int i = 0; i < myGrid.Items.Count; i++)
             {
+                DataGridRow row = (DataGridRow)myGrid.ItemContainerGenerator.ContainerFromIndex(i);
                 for (int j = 0; j < myGrid.Columns.Count; j++)
                 {
                     if (myGrid.Columns[j] != null)
                     {
-                        table.Rows[i + 2].Cells[j + 1].Range.Text = myGrid.Items[i].ToString();
+
+                        TextBlock cellContent = myGrid.Columns[j].GetCellContent(row) as TextBlock;
+                        string cellValue = cellContent == null ? "" : cellContent.Text;
+                        table.Cell(i + 2, j + 1).Range.Text = cellValue;
                     }
+
                 }
 
-                //TextBlock cellContent = ZakazDataGrid.Columns[j].GetCellContent(row) as TextBlock;
-                //string cellValue = cellContent == null ? "" : cellContent.Text;
-                //table.Cell(i + 2, j + 1).Range.Text = cellValue;
             }
 
             table.Application.Selection.Tables[1].Borders.Enable = 1; // включаем все границы
@@ -90,7 +92,7 @@ namespace FromExcelWord.Models
             table.Application.Selection.Tables[1].Rows[1].Range.Font.Name = "Calibri";
             table.Application.Selection.Tables[1].Rows[1].Range.Font.Size = 11;
             table.Rows[1].Range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
-            table.Range.ParagraphFormat.SpaceAfter = 6; // отступ
+            //table.Range.ParagraphFormat.SpaceAfter = 6; // отступ
 
             //table.Application.Selection.Tables[1].Rows[1].Alignment= WdRowAlignment.wdAlignRowCenter;
 
