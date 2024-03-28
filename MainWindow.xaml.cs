@@ -1,10 +1,9 @@
 ﻿using FromExcelWord.Models;
-//using Microsoft.Office.Interop.Word;
 using Microsoft.Win32;
 using System;
 using System.Linq;
 using System.Windows;
-using Word = Microsoft.Office.Interop.Word;
+
 
 namespace FromExcelWord
 {
