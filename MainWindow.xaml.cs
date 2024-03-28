@@ -13,7 +13,7 @@ namespace FromExcelWord
     /// </summary>
     public partial class MainWindow : Window
     {
-      
+
         private string _path = string.Empty;
 
         private WordExporter _wordExporter;
@@ -26,44 +26,35 @@ namespace FromExcelWord
         }
 
 
-     
+
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             try
             {
+                // количество задач у сотрудников по отделам
                 var query = from p in OpenExcelFile.GetPerson(_path)
                             join d in OpenExcelFile.GetDepartment(_path) on p.Department equals d.DepartmentId
                             join t in OpenExcelFile.GetTask(_path) on p.PersonNumber equals t.PersonNumber
                             select new { Отдел = d.Name, ФИО = $"{p.SurName} {p.FirstName}", TaskName = t.TaskId };
 
-                // количество задач у сотрудников по отделам
+
                 var query1 = query.GroupBy(q => new { q.Отдел, q.ФИО }).Select(g => new { g.Key.Отдел, g.Key.ФИО, Count = g.Count() });
                 var query2 = query1.GroupBy(q => new { q.Отдел }).Select(g => new { g.Key.Отдел, Count = g.Sum(x => x.Count) }).OrderByDescending(d => d.Count);
 
                 datagrid1.ItemsSource = query2;
 
-
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.Message);
-            }
-
-
-
-            try
-            {
-                var query = from p in OpenExcelFile.GetPerson(_path)
-                            join t in OpenExcelFile.GetTask(_path) on p.PersonNumber equals t.PersonNumber
-                            select new
-                            {
-                                Name = $"{p.SurName.Trim()} {p.FirstName.Trim().First()}. {p.MiddleName.FirstOrDefault()}.",
-                                TaskName = t.TaskId
-                            };
-
+               
                 // количество задач у сотрудников
-                datagrid2.ItemsSource = query.GroupBy(p => p.Name).Select(g => new { Name = g.Key, Count = g.Count() }).OrderByDescending(d => d.Count);
+                var query3 = from p in OpenExcelFile.GetPerson(_path)
+                             join t in OpenExcelFile.GetTask(_path) on p.PersonNumber equals t.PersonNumber
+                             select new
+                             {
+                                 Name = $"{p.SurName.Trim()} {p.FirstName.Trim().First()}. {p.MiddleName.FirstOrDefault()}.",
+                                 TaskName = t.TaskId
+                             };
+
+               
+                datagrid2.ItemsSource = query3.GroupBy(p => p.Name).Select(g => new { Name = g.Key, Count = g.Count() }).OrderByDescending(d => d.Count);
 
             }
             catch (Exception ex)
@@ -71,6 +62,9 @@ namespace FromExcelWord
 
                 MessageBox.Show(ex.Message);
             }
+
+
+
         }
 
 
