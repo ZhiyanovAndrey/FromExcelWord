@@ -48,7 +48,8 @@ namespace FromExcelWord
                              join t in OpenExcelFile.GetTask(_path) on p.PersonNumber equals t.PersonNumber
                              select new
                              {
-                                 Name = $"{p.SurName.Trim()} {p.FirstName.Trim().First()}. {p.MiddleName.FirstOrDefault()}.",
+                                 // FirstOrDefault() выведет только первую букву ИО
+                                 Name = $"{p.SurName.Trim()} {p.FirstName.Trim().FirstOrDefault()}. {p.MiddleName.FirstOrDefault()}.", 
                                  TaskName = t.TaskId
                              };
 
